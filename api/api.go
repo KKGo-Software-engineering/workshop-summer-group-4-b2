@@ -2,10 +2,9 @@ package api
 
 import (
 	"database/sql"
-	getExpense "github.com/KKGo-Software-engineering/workshop-summer/api/expense/get"
-
 	"github.com/KKGo-Software-engineering/workshop-summer/api/config"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/eslip"
+	"github.com/KKGo-Software-engineering/workshop-summer/api/expense"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/health"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/mlog"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/spender"
@@ -32,11 +31,15 @@ func New(db *sql.DB, cfg config.Config, logger *zap.Logger) *Server {
 
 	v1.Use(middleware.BasicAuth(AuthCheck))
 
-	getExpenseRepository := getExpense.NewRepository(db)
-	getExpenseService := getExpense.NewService(getExpenseRepository)
-	getExpenseHandler := getExpense.NewHandler(getExpenseService)
+	{
+		middlewareService := expense.NewMiddlewareService()
+		middlewareHandler := expense.NewMiddleware(middlewareService)
 
-	v1.GET("/expenses", getExpenseHandler.GetAll)
+		repository := expense.NewRepository(db)
+		service := expense.NewService(repository)
+		handler := expense.NewHandler(service)
+		v1.GET("/expenses", handler.GetAll, middlewareHandler.SetFilterExpense, middlewareHandler.SetPagination)
+	}
 
 	{
 		h := spender.New(cfg.FeatureFlag, db)

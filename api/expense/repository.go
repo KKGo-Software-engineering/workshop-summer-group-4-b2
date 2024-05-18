@@ -1,4 +1,4 @@
-package get
+package expense
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 )
 
 type Repository interface {
-	GetAll(filter Filter, paginate Paginate) ([]Expense, error)
+	GetAll(filter Filter, paginate Pagination) ([]Expense, error)
 }
 
 type repository struct {
@@ -18,7 +18,7 @@ func NewRepository(db *sql.DB) Repository {
 	return repository{db: db}
 }
 
-func (r repository) GetAll(filter Filter, paginate Paginate) ([]Expense, error) {
+func (r repository) GetAll(filter Filter, paginate Pagination) ([]Expense, error) {
 	expenses := []Expense{}
 	query := "SELECT id, date, amount, category, image_url, note, spender_id FROM transaction"
 	conditions := []string{}
