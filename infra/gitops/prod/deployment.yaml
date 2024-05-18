@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: workshop-summer-group-4-b2
-          image: ghcr.io/kkgo-software-engineering/workshop-summer-group-4-b2:b363bea56839ebd2adf0f1bae2a36726e25ff810
+          image: ghcr.io/kkgo-software-engineering/workshop-summer-group-4-b2:781c5e1c60d853ec760bb3982e2f896afe8b978e
           imagePullPolicy: Always
           env:
               -  name: DATABASE_POSTGRES_URI
