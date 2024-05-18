@@ -1,4 +1,4 @@
-package get
+package expense
 
 import (
 	"errors"
@@ -21,7 +21,7 @@ func TestGetAll_ShouldReturnError_WhenErrorOnPrepare(t *testing.T) {
 	mock.ExpectPrepare(`SELECT id, date, amount, category, image_url, note, spender_id FROM transaction LIMIT \$1 OFFSET \$2`).WillReturnError(errors.New("error on prepare"))
 	mockFilter := Filter{}
 
-	mockPaginate := Paginate{
+	mockPaginate := Pagination{
 		ItemPerPage: 1,
 		Page:        1,
 	}
@@ -44,7 +44,7 @@ func TestGetAll_ShouldReturnError_WhenErrorOnScan(t *testing.T) {
 	mock.ExpectPrepare(`SELECT id, date, amount, category, image_url, note, spender_id FROM transaction LIMIT \$1 OFFSET \$2`).ExpectQuery().WillReturnError(errors.New("error on scan"))
 	mockFilter := Filter{}
 
-	mockPaginate := Paginate{
+	mockPaginate := Pagination{
 		ItemPerPage: 1,
 		Page:        1,
 	}
@@ -76,11 +76,11 @@ func TestGetAll_ShouldReturnData_WhenCorrectInput(t *testing.T) {
 
 	mockFilter := Filter{
 		Date:     &mockDate,
-		Amount:   &mockAmount,
+		Amount:   mockAmount,
 		Category: mockCategory,
 	}
 
-	mockPaginate := Paginate{
+	mockPaginate := Pagination{
 		ItemPerPage: 1,
 		Page:        1,
 	}

@@ -1,4 +1,4 @@
-package get
+package expense
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ type MockRepository struct {
 	mock.Mock
 }
 
-func (m *MockRepository) GetAll(filter Filter, paginate Paginate) ([]Expense, error) {
+func (m *MockRepository) GetAll(filter Filter, paginate Pagination) ([]Expense, error) {
 	args := m.Called(filter, paginate)
 	if args.Get(0) == nil {
 		return nil, args.Error(1)
@@ -32,11 +32,11 @@ func TestService_GetAll_ShouldReturnError_WhenRepositoryReturnsError(t *testing.
 
 	mockFilter := Filter{
 		Date:     &mockDate,
-		Amount:   &mockAmount,
+		Amount:   mockAmount,
 		Category: mockCategory,
 	}
 
-	mockPaginate := Paginate{
+	mockPaginate := Pagination{
 		ItemPerPage: 2,
 		Page:        1,
 	}
@@ -65,11 +65,11 @@ func TestService_GetAll_ShouldReturnData_WhenRepositoryReturnsData(t *testing.T)
 
 	mockFilter := Filter{
 		Date:     &mockDate,
-		Amount:   &mockAmount,
+		Amount:   mockAmount,
 		Category: mockCategory,
 	}
 
-	mockPaginate := Paginate{
+	mockPaginate := Pagination{
 		ItemPerPage: 2,
 		Page:        1,
 	}

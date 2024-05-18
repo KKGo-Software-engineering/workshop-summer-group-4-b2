@@ -28,9 +28,9 @@ func (r repository) GetAll(filter Filter, paginate Pagination) ([]Expense, error
 		conditions = append(conditions, fmt.Sprintf("date = $%d", len(args)+1))
 		args = append(args, filter.Date)
 	}
-	if filter.Amount != nil {
+	if filter.Amount != 0 {
 		conditions = append(conditions, fmt.Sprintf("amount = $%d", len(args)+1))
-		args = append(args, *filter.Amount)
+		args = append(args, filter.Amount)
 	}
 	if filter.Category != "" {
 		conditions = append(conditions, fmt.Sprintf("category = $%d", len(args)+1))
