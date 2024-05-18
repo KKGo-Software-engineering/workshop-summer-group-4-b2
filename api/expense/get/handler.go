@@ -24,12 +24,8 @@ func NewHandler(service Service) Handler {
 }
 
 func (h handler) GetAll(c echo.Context) error {
+	filter := Filter{}
 
-	filter := Filter{
-		//Amount: float32(amount),
-	}
-
-	fmt.Println(filter)
 	pagination := Paginate{}
 
 	dateParam := c.QueryParam("date")
@@ -88,4 +84,3 @@ func (h handler) GetAll(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, result)
 }
-
