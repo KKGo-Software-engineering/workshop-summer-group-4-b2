@@ -46,6 +46,8 @@ func (r repository) GetAll(filter Filter, paginate Paginate) ([]Expense, error) 
 	query += fmt.Sprintf(" LIMIT $%d OFFSET $%d", len(args)+1, len(args)+2)
 	args = append(args, paginate.ItemPerPage, offset)
 
+	fmt.Println(query)
+
 	stmt, err := r.db.Prepare(query)
 	if err != nil {
 		return nil, err
@@ -54,6 +56,7 @@ func (r repository) GetAll(filter Filter, paginate Paginate) ([]Expense, error) 
 	rows, err := stmt.Query(args...)
 	if err != nil {
 		if err == sql.ErrNoRows {
+			fmt.Println("hit")
 			return []Expense{}, nil
 		} else {
 			return nil, err
@@ -73,4 +76,3 @@ func (r repository) GetAll(filter Filter, paginate Paginate) ([]Expense, error) 
 
 	return expenses, nil
 }
-
