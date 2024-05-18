@@ -1,0 +1,16 @@
+meta {
+  name: Get expenses
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/api/v1/expenses
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}

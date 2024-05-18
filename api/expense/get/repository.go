@@ -2,6 +2,8 @@ package get
 
 import (
 	"database/sql"
+	"fmt"
+	"strings"
 )
 
 type Repository interface {
@@ -19,8 +21,37 @@ func NewRepository(db *sql.DB) Repository {
 func (r repository) GetAll(filter Filter, paginate Paginate) ([]Expense, error) {
 	expenses := []Expense{}
 	query := "SELECT id, date, amount, category, image_url, note, spender_id FROM transaction"
+	conditions := []string{}
+	args := []interface{}{}
 
-	rows, err := r.db.Query(query)
+	if filter.Date != nil {
+		conditions = append(conditions, fmt.Sprintf("date = $%d", len(args)+1))
+		args = append(args, filter.Date)
+	}
+	if filter.Amount != nil {
+		conditions = append(conditions, fmt.Sprintf("amount = $%d", len(args)+1))
+		args = append(args, *filter.Amount)
+	}
+	if filter.Category != "" {
+		conditions = append(conditions, fmt.Sprintf("category = $%d", len(args)+1))
+		args = append(args, filter.Category)
+	}
+
+	// Add WHERE clause if there are conditions
+	if len(conditions) > 0 {
+		query += " WHERE " + strings.Join(conditions, " AND ")
+	}
+
+	offset := (paginate.Page - 1) * paginate.ItemPerPage
+	query += fmt.Sprintf(" LIMIT $%d OFFSET $%d", len(args)+1, len(args)+2)
+	args = append(args, paginate.ItemPerPage, offset)
+
+	stmt, err := r.db.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return []Expense{}, nil
@@ -42,3 +73,4 @@ func (r repository) GetAll(filter Filter, paginate Paginate) ([]Expense, error) 
 
 	return expenses, nil
 }
+

@@ -4,7 +4,7 @@ import "time"
 
 type Filter struct {
 	Date     *time.Time `json:"date"`
-	Amount   float32    `json:"amount"`
+	Amount   *float32   `json:"amount"`
 	Category string     `json:"category"`
 }
 
@@ -22,3 +22,4 @@ type Expense struct {
 	Note      string     `json:"note"`
 	SpenderId string     `json:"spenderId"`
 }
+

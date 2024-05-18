@@ -47,7 +47,9 @@ health:
 	@echo "Checking the health of the server..."
 	curl http://localhost:8080/api/v1/health
 
-.PHONY: spenders
-spenders:
-	@echo "Getting the spenders..."
-	curl -u user:secret http://localhost:8080/api/v1/spenders
+.PHONY: run-with-env
+run-with-env:
+	@echo "run with env..."
+	export ENV=LOCAL && export LOCAL_DATABASE_POSTGRES_URI=postgres://postgres:password@localhost:5432/hongjot?sslmode=disable && LOCAL_SERVER_PORT=8080 && make run
+
+	
