@@ -1,4 +1,4 @@
-package expense
+package transaction
 
 import (
 	"github.com/labstack/echo/v4"

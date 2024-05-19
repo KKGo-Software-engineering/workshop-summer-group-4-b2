@@ -1,4 +1,4 @@
-package expense
+package transaction
 
 import (
 	"errors"
@@ -85,7 +85,7 @@ func TestGetAll_ShouldReturnData_WhenCorrectInput(t *testing.T) {
 		Page:        1,
 	}
 
-	expecteds := []Expense{
+	expecteds := []Transaction{
 		{
 			ID:        1,
 			Date:      nil,

@@ -202,7 +202,7 @@ Technical Requirements:
 			"date": "2024-04-30T09:00:00.000Z",
 			"amount": 1000,
 			"category": "Food",
-			"transaction_type": "expense",
+			"transaction_type": "transaction",
 			"note": "Lunch",
 			"image_url": "https://example.com/image1.jpg",
 			"spender_id": 1
@@ -244,7 +244,7 @@ Technical Requirements:
 			"date": "2024-04-30T09:00:00.000Z",
 			"amount": 1000,
 			"category": "Food",
-			"transaction_type": "expense",
+			"transaction_type": "transaction",
 			"note": "Lunch",
 			"image_url": "https://example.com/image1.jpg",
 			"spender_id": 1
@@ -285,7 +285,7 @@ Technical Requirements:
 	"date": "2024-04-30T09:00:00.000Z",
 	"amount": 1000,
 	"category": "Food",
-	"transaction_type": "expense",
+	"transaction_type": "transaction",
 	"note": "Lunch",
 	"image_url": "https://example.com/image1.jpg",
 	"spender_id": 1
@@ -303,7 +303,7 @@ Technical Requirements:
 	"date": "2024-04-30T09:00:00.000Z",
 	"amount": 1000,
 	"category": "Food",
-	"transaction_type": "expense",
+	"transaction_type": "transaction",
 	"note": "Lunch",
 	"image_url": "https://example.com/image1.jpg",
 	"spender_id": 1
@@ -322,7 +322,7 @@ Technical Requirements:
 	"date": "2024-04-30T09:00:00.000Z",
 	"amount": 1000,
 	"category": "Food",
-	"transaction_type": "expense",
+	"transaction_type": "transaction",
 	"note": "Lunch",
 	"image_url": "https://example.com/image1.jpg",
 	"spender_id": 1
@@ -340,7 +340,7 @@ Technical Requirements:
 	"date": "2024-04-30T09:00:00.000Z",
 	"amount": 1000,
 	"category": "Food",
-	"transaction_type": "expense",
+	"transaction_type": "transaction",
 	"note": "Lunch",
 	"image_url": "https://example.com/image1.jpg",
 	"spender_id": 1
@@ -363,7 +363,7 @@ Technical Requirements:
 			"date": "2024-04-30T09:00:00.000Z",
 			"amount": 1000,
 			"category": "Food",
-			"transaction_type": "expense",
+			"transaction_type": "transaction",
 			"note": "Lunch",
 			"image_url": "https://example.com/image1.jpg",
 			"spender_id": 1
@@ -491,7 +491,7 @@ Technical Requirements:
 			"date": "2024-04-30T09:00:00.000Z",
 			"amount": 1000,
 			"category": "Food",
-			"transaction_type": "expense",
+			"transaction_type": "transaction",
 			"note": "Lunch",
 			"image_url": "https://example.com/image1.jpg",
 			"spender_id": 1

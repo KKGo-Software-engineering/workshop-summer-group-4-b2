@@ -4,10 +4,10 @@ import (
 	"database/sql"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/config"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/eslip"
-	"github.com/KKGo-Software-engineering/workshop-summer/api/expense"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/health"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/mlog"
 	"github.com/KKGo-Software-engineering/workshop-summer/api/spender"
+	"github.com/KKGo-Software-engineering/workshop-summer/api/transaction"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.uber.org/zap"
@@ -32,12 +32,12 @@ func New(db *sql.DB, cfg config.Config, logger *zap.Logger) *Server {
 	v1.Use(middleware.BasicAuth(AuthCheck))
 
 	{
-		middlewareService := expense.NewMiddlewareService()
-		middlewareHandler := expense.NewMiddleware(middlewareService)
+		middlewareService := transaction.NewMiddlewareService()
+		middlewareHandler := transaction.NewMiddleware(middlewareService)
 
-		repository := expense.NewRepository(db)
-		service := expense.NewService(repository)
-		handler := expense.NewHandler(service)
+		repository := transaction.NewRepository(db)
+		service := transaction.NewService(repository)
+		handler := transaction.NewHandler(service)
 		v1.GET("/expenses", handler.GetAll, middlewareHandler.SetFilterExpense, middlewareHandler.SetPagination)
 	}
 

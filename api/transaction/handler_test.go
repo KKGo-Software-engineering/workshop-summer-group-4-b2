@@ -1,4 +1,4 @@
-package expense
+package transaction
 
 import (
 	"github.com/labstack/echo/v4"
@@ -14,12 +14,12 @@ type MockService struct {
 	mock.Mock
 }
 
-func (m *MockService) GetAll(filter Filter, paginate Pagination) ([]Expense, error) {
+func (m *MockService) GetAll(filter Filter, paginate Pagination) ([]Transaction, error) {
 	args := m.Called(filter, paginate)
 	if args.Get(0) == nil {
 		return nil, args.Error(1)
 	}
-	return args.Get(0).([]Expense), args.Error(1)
+	return args.Get(0).([]Transaction), args.Error(1)
 }
 
 func TestHandler_GetAll(t *testing.T) {
@@ -31,14 +31,14 @@ func TestHandler_GetAll(t *testing.T) {
 	c.Set("filter", Filter{})
 	c.Set("paginate", Pagination{})
 
-	expected := []Expense{
+	expected := []Transaction{
 		{
 			ID:        1,
 			Amount:    float32(2000.0),
 			Date:      nil,
 			Category:  "food",
 			ImageUrl:  "http://img.png",
-			Note:      "expense note",
+			Note:      "transaction note",
 			SpenderId: "1",
 		},
 	}

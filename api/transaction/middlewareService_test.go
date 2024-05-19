@@ -1,4 +1,4 @@
-package expense
+package transaction
 
 import (
 	"reflect"
@@ -92,7 +92,7 @@ func TestSetPagination(t *testing.T) {
 	expectedPage, _ := strconv.Atoi(page)
 
 	defaultItemPerPage := 5
-	defaultPage := 2
+	defaultPage := 1
 
 	tests := []struct {
 		test        string

@@ -1,4 +1,4 @@
-package expense
+package transaction
 
 import "time"
 
@@ -13,7 +13,7 @@ type Pagination struct {
 	Page        int `json:"page"`
 }
 
-type Expense struct {
+type Transaction struct {
 	ID        int        `json:"id"`
 	Date      *time.Time `json:"date"`
 	Amount    float32    `json:"amount"`

@@ -1,4 +1,4 @@
-package expense
+package transaction
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 )
 
 type Repository interface {
-	GetAll(filter Filter, paginate Pagination) ([]Expense, error)
+	GetAll(filter Filter, paginate Pagination) ([]Transaction, error)
 }
 
 type repository struct {
@@ -18,8 +18,8 @@ func NewRepository(db *sql.DB) Repository {
 	return repository{db: db}
 }
 
-func (r repository) GetAll(filter Filter, paginate Pagination) ([]Expense, error) {
-	expenses := []Expense{}
+func (r repository) GetAll(filter Filter, paginate Pagination) ([]Transaction, error) {
+	expenses := []Transaction{}
 	query := "SELECT id, date, amount, category, image_url, note, spender_id FROM transaction"
 	conditions := []string{}
 	args := []interface{}{}
@@ -57,7 +57,7 @@ func (r repository) GetAll(filter Filter, paginate Pagination) ([]Expense, error
 	if err != nil {
 		if err == sql.ErrNoRows {
 			fmt.Println("hit")
-			return []Expense{}, nil
+			return []Transaction{}, nil
 		} else {
 			return nil, err
 		}
@@ -65,7 +65,7 @@ func (r repository) GetAll(filter Filter, paginate Pagination) ([]Expense, error
 	defer rows.Close()
 
 	for rows.Next() {
-		expense := Expense{}
+		expense := Transaction{}
 		err = rows.Scan(&expense.ID, &expense.Date, &expense.Amount, &expense.Category, &expense.ImageUrl, &expense.Note, &expense.SpenderId)
 		if err != nil {
 			return nil, err

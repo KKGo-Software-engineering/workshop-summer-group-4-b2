@@ -1,4 +1,4 @@
-package expense
+package transaction
 
 import (
 	"strconv"
@@ -43,7 +43,7 @@ func (m middlewareService) SetFilter(queryParams map[string][]string) Filter {
 func (m middlewareService) SetPagination(queryParams map[string][]string) Pagination {
 	pagination := Pagination{
 		ItemPerPage: 5,
-		Page:        2,
+		Page:        1,
 	}
 
 	for key, values := range queryParams {
