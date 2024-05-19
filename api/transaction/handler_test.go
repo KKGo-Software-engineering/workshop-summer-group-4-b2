@@ -1,10 +1,13 @@
 package transaction
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"testing"
 
+	"github.com/KKGo-Software-engineering/workshop-summer/api/errs"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -30,7 +33,11 @@ func (m *MockService) GetExpenses(spenderId int) ([]Transaction, error) {
 	return nil, nil
 }
 func (m *MockService) GetSummary(spenderId int, txnType string) (SummaryResponse, error) {
-	return SummaryResponse{}, nil
+	args := m.Called(spenderId, txnType)
+	if args.Get(0) == nil {
+		return SummaryResponse{}, args.Error(1)
+	}
+	return args.Get(0).(SummaryResponse), args.Error(1)
 }
 func (m *MockService) GetBalance(spenderId int) (BalanceResponse, error) {
 	return BalanceResponse{}, nil
@@ -100,16 +107,82 @@ func TestHandler_GetExpenses(t *testing.T) {
 }
 
 func TestHandler_GetSummary(t *testing.T) {
-	e := echo.New()
-	req := httptest.NewRequest(http.MethodPost, "/transactions/summary", nil)
-	rec := httptest.NewRecorder()
-	c := e.NewContext(req, rec)
+	// Arrange
+	tests := []struct {
+		name           string
+		spenderId      string
+		txnType        string
+		mockResponse   SummaryResponse
+		mockError      error
+		expectedStatus int
+		expectedBody   interface{}
+	}{
+		{
+			name:           "bad request exception",
+			spenderId:      "",
+			txnType:        "expense",
+			mockResponse:   SummaryResponse{},
+			mockError:      nil,
+			expectedStatus: http.StatusBadRequest,
+			expectedBody:   errs.ErrResponse{},
+		},
+		{
+			name:      "success",
+			spenderId: "1",
+			txnType:   "expense",
+			mockResponse: SummaryResponse{
+				TotalAmount:     400,
+				AvgAmountPerDay: 200.0,
+				Total:           2,
+			},
+			mockError:      nil,
+			expectedStatus: http.StatusOK,
+			expectedBody: SummaryResponse{
+				TotalAmount:     400,
+				AvgAmountPerDay: 200.0,
+				Total:           2,
+			},
+		},
+	}
 
-	mockService := new(MockService)
-	h := NewHandler(mockService)
-	err := h.GetSummary(c)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			e := echo.New()
+			req := httptest.NewRequest(http.MethodGet, "/summary?spender_id="+tt.spenderId+"&txn_type="+tt.txnType, nil)
+			rec := httptest.NewRecorder()
+			c := e.NewContext(req, rec)
 
-	assert.NoError(t, err)
+			mockService := new(MockService)
+
+			h := handler{service: mockService}
+
+			if spenderIdInt, err := strconv.Atoi(tt.spenderId); err == nil {
+				mockService.On("GetSummary", spenderIdInt, tt.txnType).Return(tt.mockResponse, tt.mockError)
+			}
+
+			spenderIdInt, err := strconv.Atoi(tt.spenderId)
+
+			if err != nil {
+				mockService.On("GetSummary", spenderIdInt, tt.txnType).Return(tt.mockResponse, tt.mockError)
+			} else {
+				mockService.On("GetSummary", 0, tt.txnType).Return(tt.mockResponse, tt.mockError)
+			}
+
+			// Act
+			h.GetSummary(c)
+
+			// Assert
+			assert.Equal(t, tt.expectedStatus, rec.Code)
+			if tt.expectedStatus == http.StatusOK {
+				var response SummaryResponse
+				if err := json.NewDecoder(rec.Body).Decode(&response); err == nil {
+					assert.Equal(t, tt.expectedBody, response)
+				}
+			}
+
+			// mockService.AssertExpectations(t)
+		})
+	}
 }
 
 func TestHandler_GetBalance(t *testing.T) {
