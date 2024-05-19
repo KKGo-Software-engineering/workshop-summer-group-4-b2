@@ -21,6 +21,22 @@ func (m *MockRepository) GetAll(filter Filter, paginate Pagination) ([]Transacti
 	return args.Get(0).([]Transaction), args.Error(1)
 }
 
+func (m *MockRepository) Create(request CreateTransactionRequest) (CreateTransactionResponse, error) {
+	return CreateTransactionResponse{}, nil
+}
+func (m *MockRepository) GetExpenses(spenderId int) ([]Transaction, error) {
+	return nil, nil
+}
+func (m *MockRepository) GetSummary(spenderId int, txnTypes []string) ([]GetTransactionResponse, error) {
+	return nil, nil
+}
+func (m *MockRepository) UpdateExpense(transaction Transaction) error {
+	return nil
+}
+func (m *MockRepository) DeleteExpense(id int) error {
+	return nil
+}
+
 func TestService_GetAll_ShouldReturnError_WhenRepositoryReturnsError(t *testing.T) {
 	// Arrange
 	mockRepo := new(MockRepository)

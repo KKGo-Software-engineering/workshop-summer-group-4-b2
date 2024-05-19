@@ -1,12 +1,13 @@
 package transaction
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/labstack/echo/v4"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 // Define a mock service implementing the Service interface
@@ -20,6 +21,25 @@ func (m *MockService) GetAll(filter Filter, paginate Pagination) ([]Transaction,
 		return nil, args.Error(1)
 	}
 	return args.Get(0).([]Transaction), args.Error(1)
+}
+
+func (m *MockService) Create(request CreateTransactionRequest) (CreateTransactionResponse, error) {
+	return CreateTransactionResponse{}, nil
+}
+func (m *MockService) GetExpenses(spenderId int) ([]Transaction, error) {
+	return nil, nil
+}
+func (m *MockService) GetSummary(spenderId int, txnType string) (SummaryResponse, error) {
+	return SummaryResponse{}, nil
+}
+func (m *MockService) GetBalance(spenderId int) (BalanceResponse, error) {
+	return BalanceResponse{}, nil
+}
+func (m *MockService) UpdateExpense(transaction Transaction) error {
+	return nil
+}
+func (m *MockService) DeleteExpense(id int) error {
+	return nil
 }
 
 func TestHandler_GetAll(t *testing.T) {
