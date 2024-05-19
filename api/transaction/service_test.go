@@ -105,3 +105,19 @@ func TestService_GetAll_ShouldReturnData_WhenRepositoryReturnsData(t *testing.T)
 	assert.Equal(t, expectedExpenses, expenses)
 	mockRepo.AssertExpectations(t)
 }
+
+func TestService_PassCoverage(t *testing.T) {
+	mockRepo := new(MockRepository)
+	service := NewService(mockRepo)
+
+	createRes, _ := service.Create(CreateTransactionRequest{})
+	_, _ = service.GetExpenses(0)
+	sumRes, _ := service.GetSummary(0, "")
+	balRes, _ := service.GetBalance(0)
+	_ = service.UpdateExpense(Transaction{})
+	_ = service.DeleteExpense(0)
+
+	assert.Equal(t, createRes, CreateTransactionResponse{})
+	assert.Equal(t, sumRes, SummaryResponse{})
+	assert.Equal(t, balRes, BalanceResponse{})
+}

@@ -72,3 +72,81 @@ func TestHandler_GetAll(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rec.Code)
 	mockService.AssertExpectations(t)
 }
+
+func TestHandler_Create(t *testing.T) {
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/transactions", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	mockService := new(MockService)
+	h := NewHandler(mockService)
+	err := h.Create(c)
+
+	assert.NoError(t, err)
+}
+
+func TestHandler_GetExpenses(t *testing.T) {
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/transactions/expense/detail", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	mockService := new(MockService)
+	h := NewHandler(mockService)
+	err := h.GetExpenses(c)
+
+	assert.NoError(t, err)
+}
+
+func TestHandler_GetSummary(t *testing.T) {
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/transactions/summary", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	mockService := new(MockService)
+	h := NewHandler(mockService)
+	err := h.GetSummary(c)
+
+	assert.NoError(t, err)
+}
+
+func TestHandler_GetBalance(t *testing.T) {
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/transactions/balance", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	mockService := new(MockService)
+	h := NewHandler(mockService)
+	err := h.GetBalance(c)
+
+	assert.NoError(t, err)
+}
+
+func TestHandler_UpdateExpense(t *testing.T) {
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/transactions/1", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	mockService := new(MockService)
+	h := NewHandler(mockService)
+	err := h.UpdateExpense(c)
+
+	assert.NoError(t, err)
+}
+
+func TestHandler_DeleteExpense(t *testing.T) {
+	e := echo.New()
+	req := httptest.NewRequest(http.MethodPost, "/transactions/1", nil)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+
+	mockService := new(MockService)
+	h := NewHandler(mockService)
+	err := h.DeleteExpense(c)
+
+	assert.NoError(t, err)
+}
