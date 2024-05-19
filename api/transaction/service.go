@@ -36,6 +36,10 @@ func (s service) GetBalance(spenderId int) (BalanceResponse, error) {
 }
 
 func (s service) UpdateExpense(transaction Transaction) error {
+	err := s.repository.UpdateExpense(transaction)
+	if err != nil {
+		return nil
+	}
 	return nil
 }
 

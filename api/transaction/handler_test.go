@@ -59,7 +59,7 @@ func TestHandler_GetAll(t *testing.T) {
 			Category:  "food",
 			ImageUrl:  "http://img.png",
 			Note:      "transaction note",
-			SpenderId: "1",
+			SpenderId: 1,
 		},
 	}
 

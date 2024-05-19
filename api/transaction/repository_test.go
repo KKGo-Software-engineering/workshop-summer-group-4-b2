@@ -93,7 +93,7 @@ func TestGetAll_ShouldReturnData_WhenCorrectInput(t *testing.T) {
 			Category:  "category1",
 			ImageUrl:  "urlOne",
 			Note:      "note",
-			SpenderId: "1",
+			SpenderId: 1,
 		},
 		{
 			ID:        2,
@@ -102,7 +102,7 @@ func TestGetAll_ShouldReturnData_WhenCorrectInput(t *testing.T) {
 			Category:  "category2",
 			ImageUrl:  "urlTwo",
 			Note:      "note",
-			SpenderId: "1",
+			SpenderId: 1,
 		},
 	}
 	// Act

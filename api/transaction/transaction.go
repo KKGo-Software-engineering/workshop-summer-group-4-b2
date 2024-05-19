@@ -20,7 +20,7 @@ type Transaction struct {
 	Category  string     `json:"category"`
 	ImageUrl  string     `json:"image_url"`
 	Note      string     `json:"note"`
-	SpenderId string     `json:"spender_id"`
+	SpenderId int        `json:"spender_id"`
 }
 
 type CreateTransactionRequest struct {
@@ -29,7 +29,7 @@ type CreateTransactionRequest struct {
 	Category  string     `json:"category"`
 	ImageUrl  string     `json:"image_url"`
 	Note      string     `json:"note"`
-	SpenderId string     `json:"spender_id"`
+	SpenderId int        `json:"spender_id"`
 	TxnType   string     `json:"transaction_type"`
 }
 
@@ -56,6 +56,6 @@ type GetTransactionResponse struct {
 	Category  string     `json:"category"`
 	ImageUrl  string     `json:"image_url"`
 	Note      string     `json:"note"`
-	SpenderId string     `json:"spender_id"`
+	SpenderId int        `json:"spender_id"`
 	TxnType   string     `json:"transaction_type"`
 }

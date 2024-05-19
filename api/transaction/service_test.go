@@ -91,8 +91,8 @@ func TestService_GetAll_ShouldReturnData_WhenRepositoryReturnsData(t *testing.T)
 	}
 
 	expectedExpenses := []Transaction{
-		{ID: 1, Date: &mockDate, Amount: mockAmount, Category: mockCategory, ImageUrl: "urlOne", Note: "note", SpenderId: "1"},
-		{ID: 2, Date: &mockDate, Amount: mockAmount, Category: mockCategory, ImageUrl: "urlOne", Note: "note", SpenderId: "1"},
+		{ID: 1, Date: &mockDate, Amount: mockAmount, Category: mockCategory, ImageUrl: "urlOne", Note: "note", SpenderId: 1},
+		{ID: 2, Date: &mockDate, Amount: mockAmount, Category: mockCategory, ImageUrl: "urlOne", Note: "note", SpenderId: 1},
 	}
 
 	mockRepo.On("GetAll", mockFilter, mockPaginate).Return(expectedExpenses, nil)
