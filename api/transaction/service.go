@@ -1,5 +1,7 @@
 package transaction
 
+import "errors"
+
 type service struct {
 	repository Repository
 }
@@ -28,11 +30,37 @@ func (s service) GetAll(filter Filter, paginate Pagination) ([]Transaction, erro
 }
 
 func (s service) Create(request CreateTransactionRequest) (CreateTransactionResponse, error) {
-	return CreateTransactionResponse{}, nil
+	result, err := s.repository.Create(request)
+	if err != nil {
+		return CreateTransactionResponse{}, errors.New("can't create transaction")
+	}
+
+	return result, nil
 }
 
 func (s service) GetBalance(spenderId int) (BalanceResponse, error) {
-	return BalanceResponse{}, nil
+	txn, err := s.repository.GetSummary(spenderId, nil)
+	if err != nil {
+		return BalanceResponse{}, errors.New("can't get balance")
+	}
+
+	var totalAmountEarned float32
+	var totalAmountSpended float32
+	for _, v := range txn {
+		if v.TxnType == "income" {
+			totalAmountEarned += v.Amount
+		}
+		if v.TxnType == "expense" {
+			totalAmountSpended += v.Amount
+		}
+	}
+
+	totalBalance := totalAmountEarned - totalAmountSpended
+	return BalanceResponse{
+		TotalAmountEarned: totalAmountEarned,
+		TotalAmountSpend:  totalAmountSpended,
+		TotalAmountSaved:  totalBalance,
+	}, nil
 }
 
 func (s service) UpdateExpense(transaction Transaction) error {

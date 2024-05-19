@@ -84,7 +84,19 @@ func (r repository) GetAll(filter Filter, paginate Pagination) ([]Transaction, e
 }
 
 func (r repository) Create(request CreateTransactionRequest) (CreateTransactionResponse, error) {
-	return CreateTransactionResponse{}, nil
+	var lastInsertId int
+	err := r.db.QueryRow(`
+		INSERT INTO transaction(date, amount, category, transaction_type, note, image_url, spender_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;
+		`,
+		request.Date, request.Amount, request.Category, request.TxnType, request.Note, request.ImageUrl, request.SpenderId).Scan(&lastInsertId)
+	if err != nil {
+
+		return CreateTransactionResponse{}, err
+	}
+
+	return CreateTransactionResponse{
+		ID: lastInsertId,
+	}, nil
 }
 
 func (r repository) GetExpenses(spenderId int) ([]Transaction, error) {

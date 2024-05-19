@@ -48,7 +48,17 @@ func (h handler) GetAll(c echo.Context) error {
 }
 
 func (h handler) Create(c echo.Context) error {
-	return nil
+	request := CreateTransactionRequest{}
+	if err := c.Bind(&request); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	result, err := h.service.Create(request)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+	}
+
+	return c.JSON(http.StatusOK, result)
 }
 
 func (h handler) GetExpenses(c echo.Context) error {
@@ -74,7 +84,22 @@ func (h handler) GetSummary(c echo.Context) error {
 }
 
 func (h handler) GetBalance(c echo.Context) error {
-	return nil
+	spenderId := c.QueryParam("spender_id")
+	if spenderId == "" {
+		c.JSON(http.StatusBadRequest, "spender_id is required")
+	}
+
+	id, err := strconv.Atoi(spenderId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "can't convert spender_id to number")
+	}
+
+	result, err := h.service.GetBalance(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err)
+	}
+
+	return c.JSON(http.StatusOK, result)
 }
 
 func (h handler) UpdateExpense(c echo.Context) error {
