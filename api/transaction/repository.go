@@ -8,6 +8,11 @@ import (
 
 type Repository interface {
 	GetAll(filter Filter, paginate Pagination) ([]Transaction, error)
+	Create(request CreateTransactionRequest) (CreateTransactionResponse, error)
+	GetExpenses(spenderId int) ([]Transaction, error)
+	GetSummary(spenderId int, txnTypes []string) ([]GetTransactionResponse, error)
+	UpdateExpense(transaction Transaction) error
+	DeleteExpense(id int) error
 }
 
 type repository struct {
@@ -75,4 +80,24 @@ func (r repository) GetAll(filter Filter, paginate Pagination) ([]Transaction, e
 	}
 
 	return expenses, nil
+}
+
+func (r repository) Create(request CreateTransactionRequest) (CreateTransactionResponse, error) {
+	return CreateTransactionResponse{}, nil
+}
+
+func (r repository) GetExpenses(spenderId int) ([]Transaction, error) {
+	return nil, nil
+}
+
+func (r repository) GetSummary(spenderId int, txnTypes []string) ([]GetTransactionResponse, error) {
+	return nil, nil
+}
+
+func (r repository) UpdateExpense(transaction Transaction) error {
+	return nil
+}
+
+func (r repository) DeleteExpense(id int) error {
+	return nil
 }

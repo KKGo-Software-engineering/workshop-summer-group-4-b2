@@ -38,7 +38,13 @@ func New(db *sql.DB, cfg config.Config, logger *zap.Logger) *Server {
 		repository := transaction.NewRepository(db)
 		service := transaction.NewService(repository)
 		handler := transaction.NewHandler(service)
-		v1.GET("/expenses", handler.GetAll, middlewareHandler.SetFilterExpense, middlewareHandler.SetPagination)
+		v1.GET("/transactions", handler.GetAll, middlewareHandler.SetFilterExpense, middlewareHandler.SetPagination)
+		v1.POST("/transactions", handler.Create)
+		v1.GET("/transactions/expense/detail", handler.GetExpenses)
+		v1.GET("/transactions/summary", handler.GetSummary)
+		v1.GET("/transactions/balance", handler.GetBalance)
+		v1.PUT("/transactions/:id", handler.UpdateExpense)
+		v1.DELETE("/transactions/:id", handler.DeleteExpense)
 	}
 
 	{
