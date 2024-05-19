@@ -2,7 +2,6 @@ package transaction
 
 import (
 	"errors"
-	"fmt"
 )
 
 type service struct {
@@ -45,13 +44,12 @@ func (s service) GetBalance(spenderId int) (BalanceResponse, error) {
 	txn, err := s.repository.GetSummary(spenderId, []string{
 		"income", "expense",
 	})
-	fmt.Println(txn)
 	if err != nil {
 		return BalanceResponse{}, errors.New("can't get balance")
 	}
 
-	var totalAmountEarned float32
-	var totalAmountSpended float32
+	totalAmountEarned := 0.0
+	totalAmountSpended := 0.0
 	for _, v := range txn {
 		if v.TxnType == "income" {
 			totalAmountEarned += v.Amount
@@ -82,33 +80,7 @@ func (s service) DeleteExpense(id int) error {
 }
 
 func (s service) GetSummary(spenderId int, txnType string) (SummaryResponse, error) {
-	summaries, err := s.repository.GetSummary(spenderId, []string{txnType})
-
-	if err != nil {
-		return SummaryResponse{}, err
-	}
-
-	if len(summaries) == 0 {
-		return SummaryResponse{}, err
-	}
-
-	var totalAmount float64
-	spendDaysMap := make(map[string]int)
-
-	for _, v := range summaries {
-		totalAmount += v.Amount
-
-		dateKey := v.Date.Format("2016-02-01")
-		spendDaysMap[dateKey] = spendDaysMap[dateKey] + 1
-	}
-
-	spendDays := len(spendDaysMap)
-
-	return SummaryResponse{
-		TotalAmount:     totalAmount,
-		AvgAmountPerDay: totalAmount / float64(spendDays),
-		Total:           len(summaries),
-	}, nil
+	return SummaryResponse{}, nil
 }
 
 func (s service) GetExpenses(spenderId int) ([]Transaction, error) {
