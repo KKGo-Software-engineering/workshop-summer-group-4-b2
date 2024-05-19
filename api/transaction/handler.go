@@ -1,8 +1,11 @@
 package transaction
 
 import (
-	"github.com/labstack/echo/v4"
 	"net/http"
+	"strconv"
+
+	"github.com/KKGo-Software-engineering/workshop-summer/api/errs"
+	"github.com/labstack/echo/v4"
 )
 
 type handler struct {
@@ -53,7 +56,21 @@ func (h handler) GetExpenses(c echo.Context) error {
 }
 
 func (h handler) GetSummary(c echo.Context) error {
-	return nil
+	spenderId, err := strconv.Atoi(c.QueryParam("spender_id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, errs.Build(err))
+	}
+
+	txnType := c.QueryParam("txn_type")
+
+	summary, err := h.service.GetSummary(spenderId, txnType)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, errs.Build(err))
+	}
+
+	return c.JSON(http.StatusOK, summary)
 }
 
 func (h handler) GetBalance(c echo.Context) error {

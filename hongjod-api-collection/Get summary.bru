@@ -1,0 +1,21 @@
+meta {
+  name: Get summary
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/v1/transactions/summary?category=a&amount=200
+  body: none
+  auth: basic
+}
+
+query {
+  category: a
+  amount: 200
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{password}}
+}

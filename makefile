@@ -50,6 +50,4 @@ health:
 .PHONY: run-with-env
 run-with-env:
 	@echo "run with env..."
-	export ENV=LOCAL && export LOCAL_DATABASE_POSTGRES_URI=postgres://postgres:password@localhost:5432/hongjot?sslmode=disable && LOCAL_SERVER_PORT=8080 && make run
-
-	
+	export ENV=LOCAL && export LOCAL_DATABASE_POSTGRES_URI=postgres://postgres:password@localhost:5432/hongjot?sslmode=disable && export SERVER_PORT=8080 && make run
