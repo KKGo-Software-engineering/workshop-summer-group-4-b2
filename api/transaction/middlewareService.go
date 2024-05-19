@@ -23,7 +23,8 @@ func (m middlewareService) SetFilter(queryParams map[string][]string) Filter {
 
 		switch key {
 		case "date":
-			parseDate, err := time.Parse("2006-01-02", value)
+			loc := time.Now().Location()
+			parseDate, err := time.ParseInLocation("2006-01-02", value, loc)
 			if err == nil {
 				filter.Date = &parseDate
 			}
@@ -50,7 +51,7 @@ func (m middlewareService) SetPagination(queryParams map[string][]string) Pagina
 		value := values[0]
 
 		switch key {
-		case "item-per-page":
+		case "item_per_page":
 			itemPerPage, err := strconv.Atoi(value)
 			if err == nil {
 				pagination.ItemPerPage = itemPerPage

@@ -5,9 +5,17 @@ meta {
 }
 
 get {
-  url: {{host}}/api/v1/expenses
+  url: {{host}}/api/v1/transactions?page=1&itemPerPage=1&date=2024-10-10
   body: none
   auth: basic
+}
+
+query {
+  page: 1
+  itemPerPage: 1
+  date: 2024-10-10
+  ~category: a
+  ~amount: 200
 }
 
 auth:basic {

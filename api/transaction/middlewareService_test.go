@@ -11,7 +11,7 @@ func TestSetFilter(t *testing.T) {
 	service := NewMiddlewareService()
 
 	date := "2023-05-18"
-	expectedDate, _ := time.Parse("2006-01-02", date)
+	expectedDate, _ := time.ParseInLocation("2006-01-02", date, time.Now().Location())
 
 	amount := "2000"
 	expectedAmount, _ := strconv.ParseFloat(amount, 32)
@@ -102,7 +102,7 @@ func TestSetPagination(t *testing.T) {
 		{
 			test: "only item per page is set in query params",
 			queryParams: map[string][]string{
-				"item-per-page": {itemPerPage},
+				"item_per_page": {itemPerPage},
 			},
 			expected: Pagination{
 				ItemPerPage: expectedItemPerPage,
@@ -122,7 +122,7 @@ func TestSetPagination(t *testing.T) {
 		{
 			test: "item per page and page are set in query params",
 			queryParams: map[string][]string{
-				"item-per-page": {itemPerPage},
+				"item_per_page": {itemPerPage},
 				"page":          {page},
 			},
 			expected: Pagination{
