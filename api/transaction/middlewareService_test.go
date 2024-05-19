@@ -37,7 +37,7 @@ func TestSetFilter(t *testing.T) {
 				"amount": {amount},
 			},
 			expected: Filter{
-				Amount: float32(expectedAmount),
+				Amount: expectedAmount,
 			},
 		}, {
 			test: "category is set in query params",
@@ -66,7 +66,7 @@ func TestSetFilter(t *testing.T) {
 			},
 			expected: Filter{
 				Date:     &expectedDate,
-				Amount:   float32(expectedAmount),
+				Amount:   expectedAmount,
 				Category: expectedCategory,
 			},
 		},

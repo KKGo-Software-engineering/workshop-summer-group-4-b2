@@ -23,15 +23,14 @@ func (m middlewareService) SetFilter(queryParams map[string][]string) Filter {
 
 		switch key {
 		case "date":
-			loc := time.Now().Location()
-			parseDate, err := time.ParseInLocation("2006-01-02", value, loc)
+			parseDate, err := time.ParseInLocation("2006-01-02", value, time.Now().Location())
 			if err == nil {
 				filter.Date = &parseDate
 			}
 		case "amount":
 			amount, err := strconv.ParseFloat(value, 32)
 			if err == nil {
-				filter.Amount = float32(amount)
+				filter.Amount = amount
 			}
 		case "category":
 			filter.Category = value

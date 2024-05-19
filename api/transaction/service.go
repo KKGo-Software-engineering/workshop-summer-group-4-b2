@@ -44,7 +44,33 @@ func (s service) DeleteExpense(id int) error {
 }
 
 func (s service) GetSummary(spenderId int, txnType string) (SummaryResponse, error) {
-	return SummaryResponse{}, nil
+	summaries, err := s.repository.GetSummary(spenderId, []string{txnType})
+
+	if err != nil {
+		return SummaryResponse{}, err
+	}
+
+	if len(summaries) == 0 {
+		return SummaryResponse{}, err
+	}
+
+	var totalAmount float64
+	spendDaysMap := make(map[string]int)
+
+	for _, v := range summaries {
+		totalAmount += v.Amount
+
+		dateKey := v.Date.Format("2016-02-01")
+		spendDaysMap[dateKey] = spendDaysMap[dateKey] + 1
+	}
+
+	spendDays := len(spendDaysMap)
+
+	return SummaryResponse{
+		TotalAmount:     totalAmount,
+		AvgAmountPerDay: totalAmount / float64(spendDays),
+		Total:           len(summaries),
+	}, nil
 }
 
 func (s service) GetExpenses(spenderId int) ([]Transaction, error) {

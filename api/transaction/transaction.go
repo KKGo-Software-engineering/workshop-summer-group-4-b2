@@ -4,7 +4,7 @@ import "time"
 
 type Filter struct {
 	Date     *time.Time `json:"date"`
-	Amount   float32    `json:"amount"`
+	Amount   float64    `json:"amount"`
 	Category string     `json:"category"`
 }
 
@@ -16,7 +16,7 @@ type Pagination struct {
 type Transaction struct {
 	ID        int        `json:"id"`
 	Date      *time.Time `json:"date"`
-	Amount    float32    `json:"amount"`
+	Amount    float64    `json:"amount"`
 	Category  string     `json:"category"`
 	ImageUrl  string     `json:"image_url"`
 	Note      string     `json:"note"`
@@ -25,7 +25,7 @@ type Transaction struct {
 
 type CreateTransactionRequest struct {
 	Date      *time.Time `json:"date"`
-	Amount    float32    `json:"amount"`
+	Amount    float64    `json:"amount"`
 	Category  string     `json:"category"`
 	ImageUrl  string     `json:"image_url"`
 	Note      string     `json:"note"`
@@ -38,21 +38,21 @@ type CreateTransactionResponse struct {
 }
 
 type SummaryResponse struct {
-	TotalAmountSpend     float32 `json:"total_amount_spend"`
-	AvgAmountSpendPerDay float32 `json:"average_amount_spend_per_day"`
-	Total                int     `json:"total"`
+	TotalAmount     float64 `json:"total_amount"`
+	AvgAmountPerDay float64 `json:"avg_amount_per_day"`
+	Total           int     `json:"total"`
 }
 
 type BalanceResponse struct {
-	TotalAmountEarned float32 `json:"total_amount_earned"`
-	TotalAmountSpend  float32 `json:"total_amount_spend"`
-	TotalAmountSaved  float32 `json:"total_amount_saved"`
+	TotalAmountEarned float64 `json:"total_amount_earned"`
+	TotalAmountSpend  float64 `json:"total_amount_spend"`
+	TotalAmountSaved  float64 `json:"total_amount_saved"`
 }
 
 type GetTransactionResponse struct {
 	ID        int        `json:"id"`
 	Date      *time.Time `json:"date"`
-	Amount    float32    `json:"amount"`
+	Amount    float64    `json:"amount"`
 	Category  string     `json:"category"`
 	ImageUrl  string     `json:"image_url"`
 	Note      string     `json:"note"`

@@ -71,7 +71,7 @@ func TestGetAll_ShouldReturnData_WhenCorrectInput(t *testing.T) {
 	mockDate := time.Date(2020, time.April,
 		11, 21, 34, 01, 0, time.UTC)
 
-	mockAmount := float32(10.0)
+	mockAmount := 10.0
 	mockCategory := "mock category"
 
 	mockFilter := Filter{

@@ -54,7 +54,7 @@ func TestHandler_GetAll(t *testing.T) {
 	expected := []Transaction{
 		{
 			ID:        1,
-			Amount:    float32(2000.0),
+			Amount:    2000.0,
 			Date:      nil,
 			Category:  "food",
 			ImageUrl:  "http://img.png",

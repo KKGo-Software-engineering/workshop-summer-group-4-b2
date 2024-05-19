@@ -43,7 +43,7 @@ func TestService_GetAll_ShouldReturnError_WhenRepositoryReturnsError(t *testing.
 	service := NewService(mockRepo)
 
 	mockDate := time.Date(2020, time.April, 11, 21, 34, 01, 0, time.UTC)
-	mockAmount := float32(200.2)
+	mockAmount := 200.2
 	mockCategory := "category1"
 
 	mockFilter := Filter{
@@ -76,7 +76,7 @@ func TestService_GetAll_ShouldReturnData_WhenRepositoryReturnsData(t *testing.T)
 	service := NewService(mockRepo)
 
 	mockDate := time.Date(2020, time.April, 11, 21, 34, 01, 0, time.UTC)
-	mockAmount := float32(200.2)
+	mockAmount := 200.2
 	mockCategory := "category1"
 
 	mockFilter := Filter{
@@ -118,6 +118,6 @@ func TestService_PassCoverage(t *testing.T) {
 	_ = service.DeleteExpense(0)
 
 	assert.Equal(t, createRes, CreateTransactionResponse{})
-	assert.Equal(t, sumRes, SummaryResponse{})
+	assert.Equal(t, SummaryResponse{}, sumRes)
 	assert.Equal(t, balRes, BalanceResponse{})
 }

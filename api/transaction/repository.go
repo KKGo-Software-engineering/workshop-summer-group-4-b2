@@ -33,6 +33,7 @@ func (r repository) GetAll(filter Filter, paginate Pagination) ([]Transaction, e
 		conditions = append(conditions, fmt.Sprintf("date = $%d", len(args)+1))
 		args = append(args, filter.Date)
 	}
+
 	if filter.Amount != 0 {
 		conditions = append(conditions, fmt.Sprintf("amount = $%d", len(args)+1))
 		args = append(args, filter.Amount)
