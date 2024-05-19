@@ -117,12 +117,28 @@ func (h handler) UpdateExpense(c echo.Context) error {
 	h.service.UpdateExpense(transaction)
 
 	if err := h.service.UpdateExpense(transaction); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Failed to update expense"})
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
 	return c.JSON(http.StatusOK, map[string]string{"message": "Expense updated successfully"})
 }
 
 func (h handler) DeleteExpense(c echo.Context) error {
-	return nil
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Invalid expense ID"})
+	}
+	var transaction Transaction
+	if err := c.Bind(&transaction); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
+	}
+
+	transaction.ID = id
+
+	if err := h.service.DeleteExpense(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{"message": "Expense delete successfully"})
 }

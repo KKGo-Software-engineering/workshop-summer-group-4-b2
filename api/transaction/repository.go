@@ -145,7 +145,7 @@ func (r repository) GetSummary(spenderId int, txnTypes []string) ([]GetTransacti
 
 func (r repository) UpdateExpense(transaction Transaction) error {
 
-	query := `UPDATE transactions SET date = $1, amount = $2, category = $3, image_url = $4, note = $5, spender_id = $6 WHERE id = $7`
+	query := `UPDATE transaction SET date = $1, amount = $2, category = $3, image_url = $4, note = $5, spender_id = $6 WHERE id = $7`
 	_, err := r.db.Exec(query, transaction.Date, transaction.Amount, transaction.Category, transaction.ImageUrl, transaction.Note, transaction.SpenderId, transaction.ID)
 	if err != nil {
 		return err
@@ -155,5 +155,11 @@ func (r repository) UpdateExpense(transaction Transaction) error {
 }
 
 func (r repository) DeleteExpense(id int) error {
+	query := `DELETE FROM transaction  WHERE id = $1`
+	_, err := r.db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

@@ -70,12 +70,16 @@ func (s service) GetBalance(spenderId int) (BalanceResponse, error) {
 func (s service) UpdateExpense(transaction Transaction) error {
 	err := s.repository.UpdateExpense(transaction)
 	if err != nil {
-		return nil
+		return err
 	}
 	return nil
 }
 
 func (s service) DeleteExpense(id int) error {
+	err := s.repository.DeleteExpense(id)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
