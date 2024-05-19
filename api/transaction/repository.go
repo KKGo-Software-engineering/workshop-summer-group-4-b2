@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -104,7 +105,42 @@ func (r repository) GetExpenses(spenderId int) ([]Transaction, error) {
 }
 
 func (r repository) GetSummary(spenderId int, txnTypes []string) ([]GetTransactionResponse, error) {
-	return nil, nil
+	query := `SELECT id, date, amount, category, image_url, note, spender_id, transaction_type FROM transaction WHERE spender_id = $1`
+
+	if len(txnTypes) < 2 {
+		for _, v := range txnTypes {
+			switch v {
+			case "income":
+				query = query + ` AND transaction_type = "income"`
+			case "expense":
+				query = query + ` AND transaction_type = "expense"`
+			}
+		}
+	}
+
+	stmt, err := r.db.Prepare(query)
+	if err != nil {
+		return nil, errors.New("can't prepare statement")
+	}
+
+	rows, err := stmt.Query(spenderId)
+	if err != nil {
+		return nil, errors.New("can't get transaction")
+	}
+
+	responses := []GetTransactionResponse{}
+	for rows.Next() {
+		var response GetTransactionResponse
+		err := rows.Scan(
+			&response.ID, &response.Date, &response.Amount, &response.Category, &response.ImageUrl, &response.Note, &response.SpenderId, &response.TxnType,
+		)
+		if err != nil {
+			return nil, errors.New("can't scan rows")
+		}
+
+		responses = append(responses, response)
+	}
+	return responses, nil
 }
 
 func (r repository) UpdateExpense(transaction Transaction) error {

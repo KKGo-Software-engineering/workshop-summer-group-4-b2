@@ -1,6 +1,9 @@
 package transaction
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type service struct {
 	repository Repository
@@ -39,7 +42,10 @@ func (s service) Create(request CreateTransactionRequest) (CreateTransactionResp
 }
 
 func (s service) GetBalance(spenderId int) (BalanceResponse, error) {
-	txn, err := s.repository.GetSummary(spenderId, nil)
+	txn, err := s.repository.GetSummary(spenderId, []string{
+		"income", "expense",
+	})
+	fmt.Println(txn)
 	if err != nil {
 		return BalanceResponse{}, errors.New("can't get balance")
 	}
